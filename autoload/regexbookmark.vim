@@ -30,5 +30,5 @@
 " endfunction
 "
 function! regexbookmark#init()
-  echo "yoyo
+  echo "Regex Bookmarks"
 endfunction
