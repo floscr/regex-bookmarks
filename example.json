@@ -1,0 +1,12 @@
+{
+  "bookmarks": [
+    {
+      "description": "Replace require statements with import",
+      "regex": "%s/var\s\(\w*\)\s*=\srequire(\('.*'\));/import \1 from \2/g"
+    },
+    {
+      "description": "Remove all non letter characters",
+      "regex": "`%/[^a-zA-Z0-9 ]/d`"
+    }
+  ]
+}
