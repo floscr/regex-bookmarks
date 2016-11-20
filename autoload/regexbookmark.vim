@@ -1,14 +1,13 @@
-function! s:compare_libname(lib1, lib2)
-  return a:lib1.name ==? a:lib2.name ? 0 : a:lib1.name >? a:lib2.name ? 1 : -1
-endfunction
-"
-function! s:get_bookmarks()
-  " let res = webapi#http#get('http://api.cdnjs.com/libraries', {'fields': 'version'})
-  let libraries = webapi#json#decode(join(readfile(expand('~/Desktop/tmp.json')), "\n"))
-  " let libraries = webapi#json#decode(res.content)
 
-  let s:list = copy(libraries.results)
-  return map(s:list, 'printf("%s (v%s)", v:val.name, v:val.version)')
+function! s:get_bookmarks()
+  let s:plugin_dir = expand('<sfile>:p:h:h')
+  let s:default_regex_bookmarks_json = s:plugin_dir . '/example.json'
+
+  let g:regex_bookmarks_json = get(g:, 'regex_bookmarks_json', s:default_regex_bookmarks_json)
+
+  let bookmarks_dictionary = webapi#json#decode(join(readfile(expand(g:regex_bookmarks_json)), "\n"))
+
+  return map(bookmarks_dictionary.bookmarks, 'printf("%s", v:val.name)')
 endfunc
 "
 " function! s:get_ext(url)
