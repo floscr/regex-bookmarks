@@ -7,34 +7,18 @@ function! s:get_bookmarks()
 
   let bookmarks_dictionary = webapi#json#decode(join(readfile(expand(g:regex_bookmarks_json)), "\n"))
 
-  return map(bookmarks_dictionary.bookmarks, 'printf("%s", v:val.name)')
-endfunc
-"
-" function! s:get_ext(url)
-"   return fnamemodify(a:url, ':e')
-" endfunction
-"
-" function! s:insert(str)
-"   let library = filter(copy(s:list), 'v:val.name == split(a:str)[0]')[0]
-"   let ext = s:get_ext(library.latest)
-"   let url = library.latest
-"
-"   if ext ==? 'js'
-"     let tag = '<script src="' . url . '"></script>'
-"   elseif ext ==? 'css'
-"     let tag = '<link rel="stylesheet" href="' . url . '">'
-"   endif
-"
-"   call append(line('.'), tag)
-" endfunction
-"
+  let s:bookmarks = copy(bookmarks_dictionary.bookmarks)
 
-function! s:insert()
-  call append(line('.'), 'yo')
+  return map(copy(s:bookmarks), 'printf("%s", v:val.description)')
+endfunc
+
+function! s:insert(str)
+  echom a:str
+  let chosen_list = filter(copy(s:bookmarks), 'v:val.description == a:str')[0]
+  execute chosen_list.regex
 endfunction
 
 function! regexbookmark#init()
-  " call s:get_bookmarks()
   cal fzf#run({
         \ 'source':  s:get_bookmarks(),
         \ 'sink':   function('s:insert'),
