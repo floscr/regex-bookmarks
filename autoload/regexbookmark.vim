@@ -13,7 +13,6 @@ function! s:get_bookmarks()
 endfunc
 
 function! s:insert(str)
-  echom a:str
   let chosen_list = filter(copy(s:bookmarks), 'v:val.description == a:str')[0]
   execute chosen_list.regex
 endfunction
@@ -22,5 +21,6 @@ function! regexbookmark#init()
   cal fzf#run({
         \ 'source':  s:get_bookmarks(),
         \ 'sink':   function('s:insert'),
+        \ 'down': '30%',
         \ })
 endfunction
